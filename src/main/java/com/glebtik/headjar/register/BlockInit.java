@@ -2,6 +2,7 @@ package com.glebtik.headjar.register;
 
 import com.glebtik.headjar.objects.blocks.ConnectorBlock;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
@@ -19,7 +20,7 @@ public class BlockInit {
     }
     @SubscribeEvent
     public static void registerItem(RegistryEvent.Register<Item> event) {
-        ItemInit.registerItem(new ItemBlock(CONNECTOR).setRegistryName(CONNECTOR.getRegistryName()), event);
+        ItemInit.registerModelItem(new ItemBlock(CONNECTOR).setRegistryName("jar_connector").setUnlocalizedName("jar_connector").setCreativeTab(CreativeTabs.MISC), event);
     }
 
     public static void registerBlock(RegistryEvent.Register<Block> event, Block block) {

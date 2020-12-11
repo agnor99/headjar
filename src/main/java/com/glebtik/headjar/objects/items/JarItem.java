@@ -27,16 +27,14 @@ public class JarItem extends Item {
     public JarItem(Color color) {
         item = new ItemStack(this);
 
-        ModelResourceLocation location = new ModelResourceLocation(Reference.MOD_ID + ":" + color.prefix + "jar", "inventory");
-        ModelLoader.setCustomModelResourceLocation(this, getItem().getMetadata(), location);
+
+        setUnlocalizedName(color.prefix+"jar");
+        setRegistryName(color.prefix+"jar");
 
         this.setMaxDamage(0);
         this.setHasSubtypes(false);
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.MISC);
-
-        setUnlocalizedName(color.prefix+"jar");
-        setRegistryName(color.prefix+"jar");
         this.color = color;
     }
     public ItemStack getItem() {

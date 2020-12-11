@@ -2,7 +2,11 @@ package com.glebtik.headjar.register;
 
 import com.glebtik.headjar.objects.items.JarItem;
 import com.glebtik.headjar.util.Color;
+import com.glebtik.headjar.util.Reference;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -29,26 +33,34 @@ public class ItemInit {
 
     @SubscribeEvent
     public static void onItemRegister(RegistryEvent.Register<Item> event) {
-        registerItem(JAR, event);
-        registerItem(WHITE_JAR, event);
-        registerItem(ORANGE_JAR, event);
-        registerItem(MAGENTA_JAR, event);
-        registerItem(LIGHT_BLUE_JAR, event);
-        registerItem(YELLOW_JAR, event);
-        registerItem(LIME_JAR, event);
-        registerItem(PINK_JAR, event);
-        registerItem(GRAY_JAR, event);
-        registerItem(LIGHT_GRAY_JAR, event);
-        registerItem(CYAN_JAR, event);
-        registerItem(PURPLE_JAR, event);
-        registerItem(BLUE_JAR, event);
-        registerItem(BROWN_JAR, event);
-        registerItem(GREEN_JAR, event);
-        registerItem(RED_JAR, event);
-        registerItem(BLACK_JAR, event);
+        registerModelItem(JAR, event);
+        registerModelItem(WHITE_JAR, event);
+        registerModelItem(ORANGE_JAR, event);
+        registerModelItem(MAGENTA_JAR, event);
+        registerModelItem(LIGHT_BLUE_JAR, event);
+        registerModelItem(YELLOW_JAR, event);
+        registerModelItem(LIME_JAR, event);
+        registerModelItem(PINK_JAR, event);
+        registerModelItem(GRAY_JAR, event);
+        registerModelItem(LIGHT_GRAY_JAR, event);
+        registerModelItem(CYAN_JAR, event);
+        registerModelItem(PURPLE_JAR, event);
+        registerModelItem(BLUE_JAR, event);
+        registerModelItem(BROWN_JAR, event);
+        registerModelItem(GREEN_JAR, event);
+        registerModelItem(RED_JAR, event);
+        registerModelItem(BLACK_JAR, event);
     }
 
     public static void registerItem(Item item, RegistryEvent.Register<Item> event) {
         event.getRegistry().register(item);
+    }
+    public static void registerModelItem(Item item, RegistryEvent.Register<Item> event) {
+        ModelLoader.setCustomModelResourceLocation(item, new ItemStack(item).getMetadata(), createModelResourceLocation(item.getRegistryName().getResourcePath()));
+
+        event.getRegistry().register(item);
+    }
+    private static ModelResourceLocation createModelResourceLocation(String registryName) {
+        return new ModelResourceLocation(Reference.MOD_ID + ":" + registryName, "#inventory");
     }
 }
