@@ -1,10 +1,11 @@
-package com.glebtik.headjar.items;
+package com.glebtik.headjar.objects.items;
 
-import com.glebtik.headjar.jars.IJar;
 import com.glebtik.headjar.jars.HeadJar;
 import com.glebtik.headjar.jars.NoJar;
 import com.glebtik.headjar.network.SetPlayerJarMessage;
 import com.glebtik.headjar.util.Color;
+import com.glebtik.headjar.util.Reference;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,16 +19,21 @@ import net.minecraft.world.World;
 import static com.glebtik.headjar.capabilities.JarProvider.JAR;
 
 import com.glebtik.headjar.network.PacketHandler;
+import net.minecraftforge.client.model.ModelLoader;
 
 public class JarItem extends Item {
     private ItemStack item;
     public final Color color;
     public JarItem(Color color) {
+        item = new ItemStack(this);
+
+        ModelResourceLocation location = new ModelResourceLocation(Reference.MOD_ID + ":" + color.prefix + "jar", "inventory");
+        ModelLoader.setCustomModelResourceLocation(this, getItem().getMetadata(), location);
+
         this.setMaxDamage(0);
         this.setHasSubtypes(false);
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.MISC);
-        item = new ItemStack(this);
 
         setUnlocalizedName(color.prefix+"jar");
         setRegistryName(color.prefix+"jar");

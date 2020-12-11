@@ -1,11 +1,8 @@
 package com.glebtik.headjar.register;
 
-import com.glebtik.headjar.items.JarItem;
+import com.glebtik.headjar.objects.items.JarItem;
 import com.glebtik.headjar.util.Color;
-import com.glebtik.headjar.util.Reference;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -51,9 +48,7 @@ public class ItemInit {
         registerItem(BLACK_JAR, event);
     }
 
-    private static void registerItem(JarItem item, RegistryEvent.Register<Item> event) {
-        ModelResourceLocation location = new ModelResourceLocation(Reference.MOD_ID + ":" + item.color.prefix + "jar", "inventory");
-        ModelLoader.setCustomModelResourceLocation(item, item.getItem().getMetadata(), location);
+    public static void registerItem(Item item, RegistryEvent.Register<Item> event) {
         event.getRegistry().register(item);
     }
 }

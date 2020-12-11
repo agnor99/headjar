@@ -4,6 +4,7 @@ import com.glebtik.headjar.capabilities.IJarCapability;
 import com.glebtik.headjar.capabilities.JarCapability;
 import com.glebtik.headjar.jars.JarRegistry;
 import com.glebtik.headjar.capabilities.Storage;
+import com.glebtik.headjar.register.BlockInit;
 import com.glebtik.headjar.register.ItemInit;
 import com.glebtik.headjar.jars.behavoir.IronGolemJarBehavoir;
 import com.glebtik.headjar.util.Events;
@@ -40,6 +41,7 @@ public class HeadInAJar {
         MinecraftForge.EVENT_BUS.register(new Events());
         MinecraftForge.EVENT_BUS.register(IronGolemJarBehavoir.class);
         MinecraftForge.EVENT_BUS.register(ItemInit.class);
+        MinecraftForge.EVENT_BUS.register(BlockInit.class);
         Loader.instance().getActiveModList().get(0).getMod();
         JarRegistry.registerOwn();
     }
