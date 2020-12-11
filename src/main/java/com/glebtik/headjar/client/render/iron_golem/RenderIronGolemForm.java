@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
@@ -11,10 +12,10 @@ import javax.annotation.Nullable;
 public class RenderIronGolemForm extends RenderLivingBase<EntityLivingBase> {
 
     private static final ResourceLocation IRON_GOLEM_TEXTURES = new ResourceLocation("textures/entity/iron_golem.png");
-
-    public RenderIronGolemForm(RenderManager renderManagerIn) {
+    EntityPlayer player;
+    public RenderIronGolemForm(RenderManager renderManagerIn, EntityPlayer player) {
         super(renderManagerIn, new ModelIronGolemForm(), 0.5f);
-
+        this.player = player;
     }
 
     @Override

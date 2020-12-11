@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class IronGolemJar extends HeadJar {
 
-    RenderIronGolemForm form = new RenderIronGolemForm(Minecraft.getMinecraft().getRenderManager());
+    RenderIronGolemForm form;
     float oldStepHeight;
     EntityPlayer player;
     public IronGolemJar() {
@@ -31,6 +31,9 @@ public class IronGolemJar extends HeadJar {
     @Override
     public void doRender(EntityPlayer player, float partialRenderTick, RenderPlayer playerRenderer) {
         super.doRender(player, partialRenderTick, playerRenderer);
+        if(form == null) {
+            form = new RenderIronGolemForm(Minecraft.getMinecraft().getRenderManager(), player);
+        }
         EntityIronGolem ironGolem = new EntityIronGolem(player.world);
         RenderUtils.cloneValues(player, ironGolem);
 
