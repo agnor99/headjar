@@ -1,9 +1,13 @@
 package com.glebtik.headjar.items;
 
-import net.minecraft.block.material.Material;
+import com.glebtik.headjar.jars.IJar;
+import com.glebtik.headjar.jars.HeadJar;
+import com.glebtik.headjar.jars.NoJar;
+import com.glebtik.headjar.network.SetPlayerJarMessage;
+import com.glebtik.headjar.util.Color;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -13,43 +17,51 @@ import net.minecraft.world.World;
 
 import static com.glebtik.headjar.capabilities.JarProvider.JAR;
 
-import com.glebtik.headjar.capabilities.IJar;
-import com.glebtik.headjar.network.Message;
 import com.glebtik.headjar.network.PacketHandler;
 
-public class JarItem extends Item
-{
+public class JarItem extends Item {
     private ItemStack item;
-    public JarItem() {
+    public final Color color;
+    public JarItem(Color color) {
         this.setMaxDamage(0);
         this.setHasSubtypes(false);
         this.setMaxStackSize(1);
         this.setCreativeTab(CreativeTabs.MISC);
         item = new ItemStack(this);
+
+        setUnlocalizedName(color.prefix+"jar");
+        setRegistryName(color.prefix+"jar");
+        this.color = color;
     }
     public ItemStack getItem() {
         return item;
     }
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand)
-    {
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+
         ItemStack itemStackIn = playerIn.getHeldItem(hand);
-        IJar jar = playerIn.getCapability(JAR, null);
-        
-        System.out.println("jar.isJar() rmb: " + jar.isJar());
-        if (jar.isJar()) {
-            jar.setJar(false);
-            Message msg = new Message(jar.isJar(), playerIn.getUniqueID());
-            if (!worldIn.isRemote) {
-                PacketHandler.INSTANCE.sendToAll(msg);
+        if(!worldIn.isRemote){
+            if(playerIn.getCapability(JAR, null).getJar() instanceof HeadJar){
+                NoJar newJar = new NoJar();
+                playerIn.getCapability(JAR, null).setJar(newJar);
+
+                SetPlayerJarMessage message = SetPlayerJarMessage.create((EntityPlayerMP) playerIn);
+                PacketHandler.INSTANCE.sendToAll(message);
+
+                return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
             }
-            System.out.println("set jar.isJar() to " + jar.isJar());
-            return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
-        } else {
-            jar.setJar(true);
-            Message msg = new Message(jar.isJar(), playerIn.getUniqueID());
-            if(!worldIn.isRemote)PacketHandler.INSTANCE.sendToAll(msg);
-            System.out.println("set jar.isJar() to " + jar.isJar());
+            if(playerIn.getCapability(JAR, null).getJar() instanceof NoJar){
+                HeadJar jar = new HeadJar();
+                jar.setColor(((JarItem)itemStackIn.getItem()).color);
+                playerIn.getCapability(JAR, null).setJar(jar);
+
+                SetPlayerJarMessage message = SetPlayerJarMessage.create((EntityPlayerMP) playerIn);
+                PacketHandler.INSTANCE.sendToAll(message);
+
+                return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
+            }
+            return new ActionResult<>(EnumActionResult.FAIL, itemStackIn);
+        }else{
             return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
         }
     }
